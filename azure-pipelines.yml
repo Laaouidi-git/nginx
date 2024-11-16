@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'  # Use an appropriate image for Docker build
 
 steps:
-- task: Checkout@2  # Checkout code from the repository
+- task: Checkout@1  # Checkout code from the repository
   displayName: 'Checkout code'
 
 - task: Docker@2  # Use Docker task to login to Docker Hub
