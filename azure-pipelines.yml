@@ -1,30 +1,28 @@
 trigger:
   branches:
     include:
-      - main  # Change this to the branch you want to trigger on
+      - main  # Trigger the pipeline on commits to the 'main' branch
 
 pool:
-  vmImage: 'ubuntu-latest'  # Use an appropriate image for Docker build
+  vmImage: 'ubuntu-latest'  # Use an appropriate image for Docker build (Ubuntu with Docker pre-installed)
 
 steps:
 - task: Checkout@1  # Checkout code from the repository
   displayName: 'Checkout code'
 
-- task: Docker@2  # Use Docker task to login to Docker Hub
+- task: Docker@2  # Use Docker task to log in to Docker Hub
   inputs:
-    containerRegistry: 'dockerhub-cred'  # Define Docker Hub connection (service connection) in Azure DevOps
-    command: 'login'
+    containerRegistry: 'dockerhub-cred'  # Docker Hub connection name from Azure DevOps
+    command: 'login'  # Log in to Docker Hub
   displayName: 'Log in to Docker Hub'
 
 - task: Docker@2  # Build the Docker image
   inputs:
-    containerRegistry: 'dockerhub-cred'
-    repository: 'laaouidisoufiane/nginx'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    containerRegistry: 'dockerhub-cred'  # Docker Hub connection for authentication
+    repository: 'laaouidisoufiane/nginx'  # Docker Hub repository to push the image to
+    command: 'buildAndPush'  # Command to build and push the Docker image
+    Dockerfile: '**/Dockerfile'  # Path to the Dockerfile (use **/Dockerfile for recursive search in subdirectories)
     tags: |
-      $(Build.BuildId)  # Use Azure DevOps build number as the tag
-      latest
+      1.0  # Hardcoded tag for the Docker image
   displayName: 'Build and Push Docker image'
-
 
