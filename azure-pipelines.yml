@@ -18,5 +18,5 @@ stages:
         dockerfile: '**/Dockerfile'
         containerRegistry: 'dockerhub-cred'
         tags: |
-          '1.0'
+          1.0
 
