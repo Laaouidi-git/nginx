@@ -32,7 +32,7 @@ stages:
 
     - script: |
         echo "Substituting image tag in deployment YAML..."
-        sed -i "s|{{IMAGE_TAG}}|$image_tag|g" $(Build.SourcesDirectory)/kube/deploy-nginx.yaml
+        sed -i "s|{{IMAGE_TAG}}|$(image_tag)|g" $(Build.SourcesDirectory)/kube/deploy-nginx.yaml
       displayName: 'Update image in deploy-nginx.yaml'
 
     - task: AzureCLI@2
