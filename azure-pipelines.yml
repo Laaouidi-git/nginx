@@ -1,5 +1,5 @@
-trigger:
-- main  # Adjust the trigger as needed (e.g., master, develop)
+#trigger:
+#- main  # Adjust the trigger as needed (e.g., master, develop)
 
 variables:
   tag: '$(Build.BuildId)'
