@@ -1,6 +1,9 @@
 trigger:
 - main  # Adjust the trigger as needed (e.g., master, develop)
 
+variables:
+  tag: '$(Build.BuildId)'
+
 stages:
 - stage: Build
   displayName: Build and push stage
@@ -18,7 +21,7 @@ stages:
         dockerfile: '**/Dockerfile'
         containerRegistry: 'dockerhub-cred'
         tags: |
-          v1.$(Build.BuildId)  # Dynamic tag using build ID
+         $(tag) 
 
     - script: |
         echo "Cleaning up the locally generated Docker image..."
