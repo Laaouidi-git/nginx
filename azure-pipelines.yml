@@ -4,7 +4,7 @@ trigger:
 variables:
   tag: '$(Build.BuildId)'
   imageName: 'laaouidisoufiane/nginx'  # Replace with your image name
-  image_tag: '$(imageName):v1.0-$(tag)'
+  image_tag: '$(imageName):v.$(tag)'
 
 stages:
 - stage: Build
