@@ -38,7 +38,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Deploy to AKS'
       inputs:
-        azureSubscription: '<your-azure-subscription>'  # Replace with your Azure subscription
+        azureSubscription: 'arm-conn'  # Replace with your Azure subscription
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
