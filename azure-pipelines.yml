@@ -3,6 +3,8 @@ trigger:
 
 variables:
   tag: '$(Build.BuildId)'
+  imageName: 'laaouidisoufiane/nginx'  # Replace with your image name
+  image_tag: '$(imageName):v1.0-$(tag)'
 
 stages:
 - stage: Build
@@ -17,14 +19,30 @@ stages:
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: 'laaouidisoufiane/nginx'
+        repository: $(imageName)
         dockerfile: '**/Dockerfile'
         containerRegistry: 'dockerhub-cred'
         tags: |
-         $(tag) 
+          $(tag)
 
     - script: |
         echo "Cleaning up the locally generated Docker image..."
-        docker rmi laaouidisoufiane/nginx:v1.0-$(Build.BuildId) || true
+        docker rmi $(image_tag) || true
       displayName: 'Cleanup locally generated Docker image'
-      
+
+    - script: |
+        echo "Substituting image tag in deployment YAML..."
+        sed -i "s|{{IMAGE_TAG}}|$image_tag|g" $(Build.SourcesDirectory)/kube/deploy-nginx.yaml
+      displayName: 'Update image in deploy-nginx.yaml'
+
+    - task: AzureCLI@2
+      displayName: 'Deploy to AKS'
+      inputs:
+        azureSubscription: '<your-azure-subscription>'  # Replace with your Azure subscription
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          echo "Logging in to Azure..."
+          az aks get-credentials --resource-group rg1 --name Aks1
+          kubectl apply -f $(Build.SourcesDirectory)/kube/deploy-nginx.yaml
+

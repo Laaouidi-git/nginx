@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: {{IMAGE_TAG}}
+        name: nginx
+        volumeMounts:
+        - mountPath: "/mnt/azure"
+          name: volume
+      volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: nginx-pvc
+
