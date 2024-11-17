@@ -18,7 +18,7 @@ stages:
         dockerfile: '**/Dockerfile'
         containerRegistry: 'dockerhub-cred'
         tags: |
-          v1.0-$(Build.BuildId)  # Dynamic tag using build ID
+          v1.$(Build.BuildId)  # Dynamic tag using build ID
 
     - script: |
         echo "Cleaning up the locally generated Docker image..."
